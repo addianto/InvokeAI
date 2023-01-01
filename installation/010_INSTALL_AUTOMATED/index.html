@@ -413,7 +413,7 @@
   
     <li class="md-nav__item">
       <a href="../../features/CLI/" class="md-nav__link">
-        CLI
+        Command-Line Interface
       </a>
     </li>
   
@@ -567,7 +567,7 @@
   
     <li class="md-nav__item">
       <a href="../../features/UNIFIED_CANVAS/" class="md-nav__link">
-        UNIFIED CANVAS
+        Unified Canvas
       </a>
     </li>
   
@@ -915,7 +915,7 @@
   
     <li class="md-nav__item">
       <a href="../INSTALL_MANUAL/" class="md-nav__link">
-        Installing Manually
+        Manual Installation
       </a>
     </li>
   
@@ -1206,6 +1206,7 @@ version of InvokeAI with the option to upgrade to experimental versions later.</
 <p class="admonition-title">Required Space</p>
 <p>Installation requires roughly 18G of free disk space to load the libraries and
 recommended model weights files.</p>
+<p>Regardless of your destination disk, your <em>system drive</em> (<code>C:\</code> on Windows, <code>/</code> on macOS/Linux) requires at least 6GB of free disk space to download and cache python dependencies. NOTE for Linux users: if your temporary directory is mounted as a <code>tmpfs</code>, ensure it has sufficient space.</p>
 </div>
 </li>
 <li>
@@ -1272,30 +1273,34 @@ Terminal, including InvokeAI. This package is provided directly by Apple.</p>
 </ul>
 </div>
 <div class="tabbed-block">
-<p>For reasons that are not entirely clear, installing the correct version of Python can be a bit of a challenge on Ubuntu, Linux Mint, and otherUbuntu-derived distributions.</p>
-</div>
-</div>
-</div>
-<p>In particular, Ubuntu version 20.04 LTS comes with an old version of Python, does not come with the PIP package manager installed, and to make matters worse, the <code>python</code> command points to Python2, not Python3.</p>
-<p>Here is the quick recipe for bringing your system up to date:</p>
+<p>For reasons that are not entirely clear, installing the correct version of Python can be a bit of a challenge on Ubuntu, Linux Mint, Pop!_OS, and other Debian-derived distributions.</p>
+<p>On Ubuntu 22.04 and higher, run the following:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo apt update
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo apt install python3.9
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo apt install python3-pip
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>cd /usr/bin
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>sudo ln -sf python3.9 python3
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>sudo ln -sf python3 python
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo apt install -y python3 python3-pip python3-venv
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo update-alternatives --install /usr/local/bin/python python /usr/bin/python3.10 3
 </code></pre></div>
-<p>You can still access older versions of Python by calling <code>python2</code>, <code>python3.8</code>,
-etc.</p>
+<p>On Ubuntu 20.04, the process is slightly different:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo apt update
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo apt install -y software-properties-common
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sudo add-apt-repository -y ppa:deadsnakes/ppa
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>sudo apt install python3.10 python3-pip python3.10-venv
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>sudo update-alternatives --install /usr/local/bin/python python /usr/bin/python3.10 3
+</code></pre></div>
+<p>Both <code>python</code> and <code>python3</code> commands are now pointing at Python3.10. You can still access older versions of Python by calling <code>python2</code>, <code>python3.8</code>, etc.</p>
+<p>Linux systems require a couple of additional graphics libraries to be installed for proper functioning of <code>python3-opencv</code>. Please run the following:</p>
+<p><code>sudo apt update &amp;&amp; sudo apt install -y libglib2.0-0 libgl1-mesa-glx</code></p>
+</div>
+</div>
+</div>
 </li>
 <li>
 <p>The source installer is distributed in ZIP files. Go to the
     <a href="https://github.com/invoke-ai/InvokeAI/releases/latest">latest release</a>, and
     look for a series of files named:</p>
 <ul>
-<li><a href="https://github.com/invoke-ai/InvokeAI/releases/latest/download/InvokeAI-installer-2.2.4-mac.zip">InvokeAI-installer-2.2.4-mac.zip</a></li>
-<li><a href="https://github.com/invoke-ai/InvokeAI/releases/latest/download/InvokeAI-installer-2.2.4-windows.zip">InvokeAI-installer-2.2.4-windows.zip</a></li>
-<li><a href="https://github.com/invoke-ai/InvokeAI/releases/latest/download/InvokeAI-installer-2.2.4-linux.zip">InvokeAI-installer-2.2.4-linux.zip</a></li>
+<li><a href="https://github.com/invoke-ai/InvokeAI/files/10254728/InvokeAI-installer-2.2.4-p5-mac.zip">InvokeAI-installer-2.2.4-p5-mac.zip</a></li>
+<li><a href="https://github.com/invoke-ai/InvokeAI/files/10254729/InvokeAI-installer-2.2.4-p5-windows.zip">InvokeAI-installer-2.2.4-p5-windows.zip</a></li>
+<li><a href="https://github.com/invoke-ai/InvokeAI/files/10254727/InvokeAI-installer-2.2.4-p5-linux.zip">InvokeAI-installer-2.2.4-p5-linux.zip</a></li>
 </ul>
 <p>Download the one that is appropriate for your operating system.</p>
 </li>
@@ -1304,12 +1309,12 @@ etc.</p>
     directory named "InvokeAI-Installer". This example shows how this would look
     using the <code>unzip</code> command-line tool, but you may use any graphical or
     command-line Zip extractor:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>C:\Documents\Linco&gt; unzip InvokeAI-installer-2.2.4-windows.zip
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Archive:  C: \Linco\Downloads\InvokeAI-installer-2.2.4-windows.zip
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>creating: InvokeAI-Installer\
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>inflating: InvokeAI-Installer\install.bat
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>inflating: InvokeAI-Installer\readme.txt
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>C:\Documents\Linco&gt; unzip InvokeAI-installer-2.2.4-windows.zip
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Archive:  C: \Linco\Downloads\InvokeAI-installer-2.2.4-windows.zip
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>creating: InvokeAI-Installer\
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>inflating: InvokeAI-Installer\install.bat
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>inflating: InvokeAI-Installer\readme.txt
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>...
 </code></pre></div>
 <p>After successful installation, you can delete the <code>InvokeAI-Installer</code>
 directory.</p>
@@ -1329,8 +1334,8 @@ Click on "More Info" and select "Run Anyway." You trust us, right?</p>
 </li>
 <li>
 <p>Alternatively, from the command line, run the shell script or .bat file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>C:\Documents\Linco&gt; cd InvokeAI-Installer
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>C:\Documents\Linco\invokeAI&gt; install.bat
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C:\Documents\Linco&gt; cd InvokeAI-Installer
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>C:\Documents\Linco\invokeAI&gt; install.bat
 </code></pre></div>
 </li>
 <li>
@@ -1388,8 +1393,8 @@ process for this is described in <a href="../050_INSTALLING_MODELS/">Installing 
     beginning of the install session. Look for a shell script named <code>invoke.sh</code>
     (Linux/Mac) or <code>invoke.bat</code> (Windows). Launch the script by double-clicking
     it or typing its name at the command-line:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C:\Documents\Linco&gt; cd invokeai
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>C:\Documents\Linco\invokeAI&gt; invoke.bat
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>C:\Documents\Linco&gt; cd invokeai
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>C:\Documents\Linco\invokeAI&gt; invoke.bat
 </code></pre></div>
 <ul>
 <li>
@@ -1446,7 +1451,7 @@ download models, etc), but this doesn't fix the problem.</p>
 easiest way to fix the problem is to move the file out of the way and re-run
 <code>configure_invokeai.py</code>. Enter the developer's console (option 3 of the launcher
 script) and run this command:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>configure_invokeai.py --root=.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>configure_invokeai.py --root=.
 </code></pre></div>
 <p>Note the dot (.) after <code>--root</code>. It is part of the command.</p>
 <p><em>If none of these maneuvers fixes the problem</em> then please report the problem to
@@ -1483,7 +1488,7 @@ want to install, go to the green "&lt;&gt; Code" button at the top, and copy the
 "Download ZIP" link.</p>
 <p>Now run <code>update.sh</code> (or <code>update.bat</code>) with the URL of the desired InvokeAI
 version as its argument. For example, this will install the old 2.2.0 release.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>update.sh https://github.com/invoke-ai/InvokeAI/archive/refs/tags/v2.2.0.zip
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>update.sh https://github.com/invoke-ai/InvokeAI/archive/refs/tags/v2.2.0.zip
 </code></pre></div>
 
   <hr>

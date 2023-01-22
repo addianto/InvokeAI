@@ -43,6 +43,7 @@ from ldm.invoke.globals import Globals
 from ldm.models.diffusion.shared_invokeai_diffusion import InvokeAIDiffuserComponent, ThresholdSettings
 from ldm.modules.textual_inversion_manager import TextualInversionManager
 
+import numpy
 
 @dataclass
 class PipelineIntermediateState:
@@ -307,7 +308,7 @@ class StableDiffusionGeneratorPipeline(StableDiffusionPipeline):
             textual_inversion_manager=self.textual_inversion_manager
         )
 
-        if is_xformers_available() and not Globals.disable_xformers:
+        if self._is_xformers_enabled():
             self.enable_xformers_memory_efficient_attention()
 
     def image_from_embeddings(self, latents: torch.Tensor, num_inference_steps: int,
@@ -635,3 +636,43 @@ class StableDiffusionGeneratorPipeline(StableDiffusionPipeline):
             decoded = self.numpy_to_pil(self.decode_latents(latents))
             for i, img in enumerate(decoded):
                 debug_image(img, f"latents {msg} {i+1}/{len(decoded)}", debug_status=True)
+
+    def decode_latents(self, latents: torch.Tensor) -> numpy.ndarray:
+        """Decodes the given latents into an image.
+
+        If a user explicitly specifies to use the memory-saving procedure via the UI,
+        then the final latent decoding step will be done in CPU.
+        Otherwise, it will be done normally in GPU.
+
+        Args:
+            latents: The resulting latents from the diffusion process.
+
+        Returns:
+            An image decoded from the given latents.
+
+        Todo:
+            * (Maybe) Remove all .to("cpu") once enable_sequential_cpu_offload() works in InvokeAI.
+        """
+        if not Globals.move_vae_to_cpu:
+            return super().decode_latents(latents)
+
+        if self._is_xformers_enabled():
+            self.disable_xformers_memory_efficient_attention()
+
+        # TODO: Benchmark generation time w/ & w/o non_blocking parameter
+        self.vae.to("cpu", non_blocking=True)
+        image = super().decode_latents(latents.to("cpu"))
+
+        if self._is_xformers_enabled():
+            self.enable_xformers_memory_efficient_attention()
+
+        return image
+
+    @staticmethod
+    def _is_xformers_enabled() -> bool:
+        """Checks whether `xformers` is available and explicitly enabled in InvokeAI.
+
+        Returns:
+            True if `xformers` is enabled, False otherwise.
+        """
+        return is_xformers_available() and not Globals.disable_xformers

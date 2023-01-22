@@ -50,6 +50,9 @@ Globals.disable_xformers = False
 # whether we are forcing full precision
 Globals.full_precision = False
 
+# Whether to move VAE to CPU when generating image
+Globals.move_vae_to_cpu = False
+
 def global_config_file()->Path:
     return Path(Globals.root, Globals.config_dir, Globals.models_file)
 

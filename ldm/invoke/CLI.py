@@ -46,6 +46,7 @@ def main():
     Globals.always_use_cpu = args.always_use_cpu
     Globals.internet_available = args.internet_available and check_internet()
     Globals.disable_xformers = not args.xformers
+    Globals.move_vae_to_cpu = args.move_vae_to_cpu
     print(f'>> Internet connectivity is {Globals.internet_available}')
 
     if not args.conf:
@@ -485,7 +486,7 @@ def do_command(command:str, gen, opt:Args, completer) -> tuple:
             optimize_model(path[1], gen, opt, completer)
         completer.add_history(command)
         operation = None
-        
+
 
     elif command.startswith('!optimize'):
         path = shlex.split(command)
@@ -570,11 +571,11 @@ def import_model(model_path:str, gen, opt, completer):
     (3) a huggingface repository id
     '''
     model_name = None
-    
+
     if model_path.startswith(('http:','https:','ftp:')):
         model_name = import_ckpt_model(model_path, gen, opt, completer)
     elif os.path.exists(model_path) and model_path.endswith(('.ckpt','.safetensors')) and os.path.isfile(model_path):
-        model_name = import_ckpt_model(model_path, gen, opt, completer)        
+        model_name = import_ckpt_model(model_path, gen, opt, completer)
     elif re.match('^[\w.+-]+/[\w.+-]+$',model_path):
         model_name = import_diffuser_model(model_path, gen, opt, completer)
     elif os.path.isdir(model_path):
@@ -584,12 +585,12 @@ def import_model(model_path:str, gen, opt, completer):
 
     if not model_name:
         return
-        
+
     if not _verify_load(model_name, gen):
         print('** model failed to load. Discarding configuration entry')
         gen.model_manager.del_model(model_name)
         return
-    
+
     if input('Make this the default model? [n] ').strip() in ('y','Y'):
         gen.model_manager.set_default_model(model_name)
 
@@ -705,7 +706,7 @@ def optimize_model(model_name_or_path:str, gen, opt, completer):
     else:
         print(f'** {model_name_or_path} is neither an existing model nor the path to a .ckpt file')
         return
-    
+
     if not ckpt_path.is_absolute():
         ckpt_path = Path(Globals.root,ckpt_path)
 
@@ -713,7 +714,7 @@ def optimize_model(model_name_or_path:str, gen, opt, completer):
     if diffuser_path.exists():
         print(f'** {model_name_or_path} is already optimized. Will not overwrite. If this is an error, please remove the directory {diffuser_path} and try again.')
         return
-     
+
     new_config = gen.model_manager.convert_and_import(
         ckpt_path,
         diffuser_path,
@@ -744,7 +745,7 @@ def del_config(model_name:str, gen, opt, completer):
 
     if input(f'Remove {model_name} from the list of models known to InvokeAI? [y] ').strip().startswith(('n','N')):
         return
-    
+
     delete_completely = input('Completely remove the model file or directory from disk? [n] ').startswith(('y','Y'))
     gen.model_manager.del_model(model_name,delete_files=delete_completely)
     gen.model_manager.commit(opt.conf)
@@ -767,7 +768,7 @@ def edit_model(model_name:str, gen, opt, completer):
             continue
         completer.set_line(info[attribute])
         info[attribute] = input(f'{attribute}: ') or info[attribute]
-        
+
     if new_name != model_name:
         manager.del_model(model_name)
 

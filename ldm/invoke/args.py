@@ -530,6 +530,13 @@ class Args(object):
             default=True,
             help='Load the patchmatch extension for outpainting. Use --no-patchmatch to disable.',
         )
+        model_group.add_argument(
+            '--move_vae_to_cpu',
+            action=argparse.BooleanOptionalAction,
+            dest='move_vae_to_cpu',
+            default=False,
+            help='Move VAE to CPU at the last step of image generating process.',
+        )
         file_group.add_argument(
             '--from_file',
             dest='infile',
@@ -737,7 +744,7 @@ class Args(object):
                 invoke> !fetch 0000015.8929913.png
                 invoke> a fantastic alien landscape -W 576 -H 512 -s 60 -A plms -C 7.5
                 invoke> !fetch /path/to/images/*.png prompts.txt
- 
+
             !replay /path/to/prompts.txt
             Replays all the prompts contained in the file prompts.txt.
 

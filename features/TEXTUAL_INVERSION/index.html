@@ -1368,8 +1368,8 @@ start the front end by selecting choice (3):</p>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Please<span class="w"> </span>enter<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span>,<span class="w"> </span>or<span class="w"> </span><span class="m">4</span>:<span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span><span class="m">3</span>
 </code></pre></div>
 <p>From the command line, with the InvokeAI virtual environment active,
-you can launch the front end with the command
-<code>textual_inversion_fe</code>.</p>
+you can launch the front end with the command <code>textual_inversion
+--gui</code>.</p>
 <p>This will launch a text-based front end that will look like this:</p>
 <figure>
 <p><img alt="ti-frontend" src="../../assets/textual-inversion/ti-frontend.png" /></p>
@@ -1487,17 +1487,15 @@ embeddings file in
 <p>You may now launch InvokeAI and try out a prompt that uses the trigger
 term. For example <code>a plate of banana sushi in &lt;psychedelic&gt; style</code>.</p>
 <h2 id="training-with-the-command-line-script"><strong>Training with the Command-Line Script</strong><a class="headerlink" href="#training-with-the-command-line-script" title="Permanent link">#</a></h2>
-<p>InvokeAI also comes with a traditional command-line script for
-launching textual inversion training. It is named
-<code>textual_inversion</code>, and can be launched from within the
-"developer's console", or from the command line after activating
-InvokeAI's virtual environment.</p>
+<p>Training can also be done using a traditional command-line script. It
+can be launched from within the "developer's console", or from the
+command line after activating InvokeAI's virtual environment.</p>
 <p>It accepts a large number of arguments, which can be summarized by
 passing the <code>--help</code> argument:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>textual_inversion<span class="w"> </span>--help
 </code></pre></div>
 <p>Typical usage is shown here:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>textual_inversion.py<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>textual_inversion<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">       </span>--model<span class="o">=</span>stable-diffusion-1.5<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">       </span>--resolution<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">       </span>--learnable_property<span class="o">=</span>style<span class="w"> </span><span class="se">\</span>
@@ -1536,7 +1534,7 @@ resources:</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 20, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 26, 2023</span>
       
         <br>
         Created:

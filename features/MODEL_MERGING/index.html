@@ -1187,10 +1187,9 @@ models</em>. This will launch a text-based interactive user interface that
 prompts you to select the models to merge, how to merge them, and the
 merged model name.</p>
 <p>Alternatively you may activate InvokeAI's virtual environment from the
-command line, and call the script via <code>merge_models_fe.py</code> (the "fe"
-stands for "front end"). There is also a version that accepts
-command-line arguments, which you can run with the command
-<code>merge_models.py</code>.</p>
+command line, and call the script via <code>merge_models --gui</code> to open up
+a version that has a nice graphical front end. To get the commandline-
+only version, omit <code>--gui</code>.</p>
 <p>The user interface for the text-based interactive script is
 straightforward. It shows you a series of setting fields. Use control-N (^N)
 to move to the next field, and control-P (^P) to move to the previous
@@ -1213,7 +1212,7 @@ under the selected name and register it with InvokeAI.</p>
   display all the diffusers-style models that InvokeAI knows about.
   If you do not see the model you are looking for, then it is probably
   a legacy checkpoint model and needs to be converted using the
-  <code>invoke.py</code> command-line client and its <code>!optimize</code> command. You
+  <code>invoke</code> command-line client and its <code>!optimize</code> command. You
   must select at least two models to merge. The third can be left at
   "None" if you desire.</p>
 </li>
@@ -1251,7 +1250,7 @@ under the selected name and register it with InvokeAI.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 23, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 26, 2023</span>
       
         <br>
         Created:

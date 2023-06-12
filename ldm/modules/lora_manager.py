@@ -49,7 +49,7 @@ class LoraCondition:
     def unload(self):
         if self.kohya_manager and self.kohya_manager.unload_applied_lora(self.name):
             print(f'>> unloading LoRA {self.name}')
-            
+
 
 class LoraManager:
     def __init__(self, pipe: StableDiffusionPipeline):
@@ -67,7 +67,7 @@ class LoraManager:
             return conditions
 
         return None
-    
+
     def list_compatible_loras(self)->Dict[str, Path]:
         '''
         List all the LoRAs in the global lora directory that
@@ -94,8 +94,19 @@ class LoraManager:
                 if suffix not in [".ckpt", ".pt", ".safetensors"]:
                     continue
                 path = Path(root,x)
+                if is_git_lfs_pointer(path):
+                    continue
                 if token_vector_length is None:
                     models_found[name]=Path(root,x)  # unconditional addition
                 elif token_vector_length == KohyaLoraManager.vector_length_from_checkpoint_file(path):
                     models_found[name]=Path(root,x)  # conditional on the base model matching
         return models_found
+
+
+def is_git_lfs_pointer(path: Path) -> bool:
+    with open(path, "r") as checkpoint_file:
+        try:
+            first_line: str = checkpoint_file.readline().strip()
+            return first_line.startswith("version https://git-lfs.github.com/spec/v")
+        except UnicodeDecodeError:  # Given file is actually a LORA file, not a Git LFS pointer
+            return False
